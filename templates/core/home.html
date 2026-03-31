@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+{% block title %}Give — Causes{% endblock %}
+{% block content %}
+<div class="hero">
+  <p class="page-title">Online Donation Platform</p>
+  <h1>Fund what matters.</h1>
+  <p>Browse active causes, make a donation, and track your impact over time.</p>
+  {% if not user.is_authenticated %}
+  <div class="hero-actions">
+    <a href="/register/" class="btn btn-primary">Create Account</a>
+    <a href="/login/" class="btn">Log In</a>
+  </div>
+  {% endif %}
+</div>
+
+<p class="section-label">Active Causes ({{ causes|length }})</p>
+{% if causes %}
+<div class="causes-grid">
+  {% for cause in causes %}
+  <div class="cause-card">
+    <h2>{{ cause.title }}</h2>
+    <p>{{ cause.description|truncatewords:20 }}</p>
+    <div class="progress-wrap">
+      <div class="progress-meta">
+        <span>${{ cause.raised_amount|floatformat:0 }} raised</span>
+        <span>{{ cause.progress_percent }}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ cause.progress_percent }}%"></div>
+      </div>
+      <div style="margin-top: 1rem;">
+        <a href="/cause/{{ cause.pk }}/" class="btn btn-sm">View Cause</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+  <p style="color: var(--muted);">No active causes yet.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+{% block title %}Log In — Give{% endblock %}
+{% block content %}
+<div class="auth-wrap">
+  <p class="page-title">Account</p>
+  <h1>Log In</h1>
+  <form method="POST" class="form-block">
+    {% csrf_token %}
+    <div class="field">
+      <label>Username</label>
+      <input type="text" name="username" required autofocus>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Log In</button>
+  </form>
+  <p class="auth-footer">No account? <a href="/register/">Register</a></p>
+</div>
+{% endblock %}

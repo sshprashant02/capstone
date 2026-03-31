@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% block title %}{{ cause.title }} — Give{% endblock %}
+{% block content %}
+<p class="page-title"><a href="/">Causes</a> / {{ cause.title }}</p>
+
+<div class="cause-header">
+  <h1>{{ cause.title }}</h1>
+  <p style="color: var(--muted); max-width: 600px;">{{ cause.description }}</p>
+  <div class="cause-stats">
+    <div class="stat">
+      <span class="stat-val">${{ cause.raised_amount|floatformat:0 }}</span>
+      <span class="stat-lbl">Raised</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">${{ cause.goal_amount|floatformat:0 }}</span>
+      <span class="stat-lbl">Goal</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">{{ cause.progress_percent }}%</span>
+      <span class="stat-lbl">Funded</span>
+    </div>
+  </div>
+  <div style="margin-top: 1.5rem; max-width: 500px;">
+    <div class="progress-bar" style="height: 3px;">
+      <div class="progress-fill" style="width: {{ cause.progress_percent }}%"></div>
+    </div>
+  </div>
+  <div style="margin-top: 1.5rem;">
+    {% if user.is_authenticated %}
+      <a href="/cause/{{ cause.pk }}/donate/" class="btn btn-primary">Donate Now</a>
+    {% else %}
+      <a href="/login/" class="btn">Log in to Donate</a>
+    {% endif %}
+  </div>
+</div>
+
+<div class="table-wrap">
+  <p class="section-label">Recent Donations</p>
+  {% if donations %}
+  <table>
+    <thead>
+      <tr>
+        <th>Donor</th>
+        <th>Amount</th>
+        <th>Message</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in donations %}
+      <tr>
+        <td>{{ d.donor.username }}</td>
+        <td style="font-family: 'IBM Plex Mono', monospace;">${{ d.amount }}</td>
+        <td style="color: var(--muted);">{{ d.message|default:"—" }}</td>
+        <td style="color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 12px;">{{ d.donated_at|date:"M d, Y" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p style="color: var(--muted); font-size: 13px;">No donations yet. Be the first.</p>
+  {% endif %}
+</div>
+{% endblock %}

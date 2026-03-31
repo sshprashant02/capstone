@@ -1,0 +1,72 @@
+{% extends 'core/base.html' %}
+{% block title %}Profile — Give{% endblock %}
+{% block content %}
+<p class="page-title">Donor Profile</p>
+<h1 style="font-size: 1.4rem; font-weight: 400; margin-bottom: 2rem;">{{ user.username }}</h1>
+
+<div class="profile-grid">
+  <div>
+    <p class="section-label">Stats</p>
+    <div class="profile-stat-row">
+      <span class="label">Total Donated</span>
+      <span class="val">${{ profile.total_donated|floatformat:2 }}</span>
+    </div>
+    <div class="profile-stat-row">
+      <span class="label">Email</span>
+      <span class="val">{{ user.email|default:"—" }}</span>
+    </div>
+    <div class="profile-stat-row">
+      <span class="label">Phone</span>
+      <span class="val">{{ profile.phone|default:"—" }}</span>
+    </div>
+    <div class="profile-stat-row">
+      <span class="label">Address</span>
+      <span class="val" style="font-family: inherit;">{{ profile.address|default:"—" }}</span>
+    </div>
+
+    <div style="margin-top: 2rem;">
+      <p class="section-label">Edit Profile</p>
+      <form method="POST" class="form-block">
+        {% csrf_token %}
+        <div class="field">
+          <label>Phone</label>
+          <input type="text" name="phone" value="{{ profile.phone }}">
+        </div>
+        <div class="field">
+          <label>Address</label>
+          <textarea name="address">{{ profile.address }}</textarea>
+        </div>
+        <button type="submit" class="btn">Save Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <div>
+    <p class="section-label">Donation History</p>
+    {% if donations %}
+    <table>
+      <thead>
+        <tr>
+          <th>Cause</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in donations %}
+        <tr>
+          <td><a href="/cause/{{ d.cause.pk }}/">{{ d.cause.title }}</a></td>
+          <td style="font-family: 'IBM Plex Mono', monospace;">${{ d.amount }}</td>
+          <td><span class="status-pill status-{{ d.status }}">{{ d.status }}</span></td>
+          <td style="color: var(--muted); font-size: 12px; font-family: 'IBM Plex Mono', monospace;">{{ d.donated_at|date:"M d, Y" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+      <p style="color: var(--muted); font-size: 13px;">No donations yet. <a href="/">Browse causes</a>.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

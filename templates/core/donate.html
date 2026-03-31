@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %}
+{% block title %}Donate — {{ cause.title }}{% endblock %}
+{% block content %}
+<p class="page-title"><a href="/">Causes</a> / <a href="/cause/{{ cause.pk }}/">{{ cause.title }}</a> / Donate</p>
+<h1 style="font-size: 1.4rem; font-weight: 400; margin-bottom: 2rem;">Make a Donation</h1>
+
+<div class="form-block">
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="field">
+      <label>Amount (USD)</label>
+      <div class="amount-options">
+        <button type="button" class="amount-btn" onclick="setAmount(10)">$10</button>
+        <button type="button" class="amount-btn" onclick="setAmount(25)">$25</button>
+        <button type="button" class="amount-btn" onclick="setAmount(50)">$50</button>
+        <button type="button" class="amount-btn" onclick="setAmount(100)">$100</button>
+      </div>
+      <input type="number" name="amount" id="amount-input" min="1" step="0.01" placeholder="Or enter custom amount" required>
+    </div>
+
+    <div class="field">
+      <label>Card Number (16 digits, simulated)</label>
+      <input type="text" name="card_number" maxlength="16" placeholder="1234567890123456" required>
+      <p style="font-size: 11px; color: var(--muted); margin-top: 4px;">Use 0000... to simulate a declined card.</p>
+    </div>
+
+    <div class="field">
+      <label>Message (optional)</label>
+      <textarea name="message" placeholder="Leave a note with your donation..."></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Confirm Donation</button>
+  </form>
+</div>
+
+<script>
+function setAmount(val) {
+  document.getElementById('amount-input').value = val;
+  document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+{% endblock %}
