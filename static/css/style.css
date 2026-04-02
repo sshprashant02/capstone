@@ -20,6 +20,16 @@ body {
   font-size: 15px;
   line-height: 1.6;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  flex: 1;
+  width: 100%;
 }
 
 a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); transition: border-color 0.2s; }
@@ -195,21 +205,14 @@ td { padding: 0.75rem 0; border-bottom: 1px solid #181818; vertical-align: top; 
 }
 
 .bottom_container {
-  /* position: absolute;
-  bottom: 0; /* Aligns to the bottom of the parent */
-  /* left: 0; /* Aligns to the left edge of the parent */
-  /* width: 100%; /* Optional: ensures it spans the full width if needed */
-  /* text-align: center; /* Optional: centers the text horizontally */
-  /* background-color: whitesmoke; */ 
-
   font-size: 15px;
-  /* position: absolute; */
-
-  font-family: 'monospace';
-  bottom: 0;
+  font-family: monospace;
   text-align: center;
   color: #44ff88;
   background-color: black;
-  padding: 10px;
+  padding: 16px 0 12px 0;
+  margin-top: auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
